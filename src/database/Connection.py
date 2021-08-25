@@ -10,12 +10,17 @@ class Connection:
         except Exception as e:
             return e
 
-    def execute_sql(self, sql):
+    def execute_get_sql(self, sql):
         cur = self.connection.cursor()
         cur.execute(sql)
         self.connection.commit()
         result = cur.fetchall()
         return result
+
+    def execute_sql(self, sql):
+        cur = self.connection.cursor()
+        cur.execute(sql)
+        self.connection.commit()
 
     def close_connection(self):
         cur = self.connection.cursor()
