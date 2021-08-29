@@ -12,9 +12,9 @@ def get_all_municipios_by_year_count_is_zero(year="2015"):
     connection.close_connection()
     return municipios
 
-def get_all_municipios():
+def get_all_municipios(fields = " m.municipio "):
     connection = get_connection()
-    municipios = connection.execute_get_sql("select m.municipio from public.municipio m order by m.municipio ")
+    municipios = connection.execute_get_sql(f"select {fields} from public.municipio m order by m.municipio ")
     connection.close_connection()
     return municipios
 

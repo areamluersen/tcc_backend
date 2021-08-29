@@ -104,7 +104,7 @@ def update_pib_municipios(municipios, thread_name):
 # 3- Para cada ano de interesse buscar o pib desejado. OK
 # 4- Calcular o acréscimo anual médio do PIB. Aplicar 2018 + acréscimo em 2019 e 2019 + acréscimo em 2020 OK
 # 5- Criar coluna no banco de dados para salvar os PIBs OK
-# 5- Salvar na coluna do banco de cada município o valor do PIB TODO
+# 5- Salvar na coluna do banco de cada município o valor do PIB OK
 
 def split_municipios():
     municipios = get_all_municipios()
