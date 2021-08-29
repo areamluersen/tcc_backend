@@ -5,7 +5,7 @@ from threading import Thread
 from datetime import datetime
 
 def read_excel():
-    return pd.read_excel(r"C:\faculdade\tcc\fontes_de_dados\3-frequencia_escolar_censo_escolar.xlsx", skiprows=0)  # use r before absolute file path
+    return pd.read_excel(r"C:\faculdade\tcc\fontes_de_dados\9-populacao_e_gini.xlsx", skiprows=0)  # use r before absolute file path
 
 def update_idhm_per_capita_municipio(ibge_municipio, idhm, column):
     connection = get_connection()
@@ -22,11 +22,17 @@ def update_idhm_municipios(municipios, thread_name):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         try:
-            tx_freq_liq_ens_fund_2010 = munFromFile["Taxa de frequência líquida ao ensino fundamental 2010"][munFromFile.index[0]]
-            tx_evasao_rede_publica_fund_2014 = munFromFile["Taxa de evasão no ensino fundamental, na rede pública 2014"][munFromFile.index[0]]
+            indice_gini_2010 = munFromFile["Índice de Gini 2010"][munFromFile.index[0]]
+            populacao_2010 = munFromFile["População total 2010"][munFromFile.index[0]]
+            populacao_10a14_anos_2010 = munFromFile["População de 10  a 14 anos de idade 2010"][munFromFile.index[0]]
+            populacao_5a9_anos_m_2010 = munFromFile["População masculina de 5 a 9 anos de idade 2010"][munFromFile.index[0]]
+            populacao_5a9_anos_f_2010 = munFromFile["População feminina de 5 a 9 anos de idade 2010"][munFromFile.index[0]]
             print(current_time, ' - ', municipio[0], '-', municipio[1], ' - In ', thread_name)
-            update_idhm_per_capita_municipio(municipio[0], tx_freq_liq_ens_fund_2010, "tx_freq_liq_ens_fund_2010")
-            update_idhm_per_capita_municipio(municipio[0], tx_evasao_rede_publica_fund_2014, "tx_evasao_rede_publica_fund_2014")
+            update_idhm_per_capita_municipio(municipio[0], indice_gini_2010, "indice_gini_2010")
+            update_idhm_per_capita_municipio(municipio[0], populacao_2010, "populacao_2010")
+            update_idhm_per_capita_municipio(municipio[0], populacao_10a14_anos_2010, "populacao_10a14_anos_2010")
+            update_idhm_per_capita_municipio(municipio[0], populacao_5a9_anos_m_2010, "populacao_5a9_anos_m_2010")
+            update_idhm_per_capita_municipio(municipio[0], populacao_5a9_anos_f_2010, "populacao_5a9_anos_f_2010")
         except:
             print(current_time, " - ", "Municipio não encontrado: ", municipio[0], '-', municipio[1])
 

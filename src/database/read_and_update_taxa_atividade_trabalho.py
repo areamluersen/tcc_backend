@@ -5,7 +5,7 @@ from threading import Thread
 from datetime import datetime
 
 def read_excel():
-    return pd.read_excel(r"C:\faculdade\tcc\fontes_de_dados\3-frequencia_escolar_censo_escolar.xlsx", skiprows=0)  # use r before absolute file path
+    return pd.read_excel(r"C:\faculdade\tcc\fontes_de_dados\4-taxa_atividade_trabalho_censo.xlsx", skiprows=0)  # use r before absolute file path
 
 def update_idhm_per_capita_municipio(ibge_municipio, idhm, column):
     connection = get_connection()
@@ -22,11 +22,11 @@ def update_idhm_municipios(municipios, thread_name):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         try:
-            tx_freq_liq_ens_fund_2010 = munFromFile["Taxa de frequência líquida ao ensino fundamental 2010"][munFromFile.index[0]]
-            tx_evasao_rede_publica_fund_2014 = munFromFile["Taxa de evasão no ensino fundamental, na rede pública 2014"][munFromFile.index[0]]
+            tx_atividade_10_anos_ou_mais_2010 = munFromFile["Taxa de atividade - 10 anos ou mais de idade 2010"][munFromFile.index[0]]
+            tx_atividade_10a14_anos_2010 = munFromFile["Taxa de atividade - 10 a 14 anos de idade 2010"][munFromFile.index[0]]
             print(current_time, ' - ', municipio[0], '-', municipio[1], ' - In ', thread_name)
-            update_idhm_per_capita_municipio(municipio[0], tx_freq_liq_ens_fund_2010, "tx_freq_liq_ens_fund_2010")
-            update_idhm_per_capita_municipio(municipio[0], tx_evasao_rede_publica_fund_2014, "tx_evasao_rede_publica_fund_2014")
+            update_idhm_per_capita_municipio(municipio[0], tx_atividade_10_anos_ou_mais_2010, "tx_atividade_10_anos_ou_mais_2010")
+            update_idhm_per_capita_municipio(municipio[0], tx_atividade_10a14_anos_2010, "tx_atividade_10a14_anos_2010")
         except:
             print(current_time, " - ", "Municipio não encontrado: ", municipio[0], '-', municipio[1])
 
