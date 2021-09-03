@@ -1,11 +1,11 @@
 import pandas as pd
-from municipios_exec_bd import get_all_municipios, get_connection
+from src.database.municipios_exec_bd import get_all_municipios, get_connection
 import numpy as np
 from threading import Thread
 from datetime import datetime
 
 def read_excel():
-    return pd.read_excel(r"C:\faculdade\tcc\fontes_de_dados\4-taxa_atividade_trabalho_censo.xlsx", skiprows=0)  # use r before absolute file path
+    return pd.read_excel(r"C:\faculdade\tcc\fontes_de_dados\2-IDHM_Censo.xlsx", skiprows=0)  # use r before absolute file path
 
 def update_idhm_per_capita_municipio(ibge_municipio, idhm, column):
     connection = get_connection()
@@ -22,11 +22,15 @@ def update_idhm_municipios(municipios, thread_name):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         try:
-            tx_atividade_10_anos_ou_mais_2010 = munFromFile["Taxa de atividade - 10 anos ou mais de idade 2010"][munFromFile.index[0]]
-            tx_atividade_10a14_anos_2010 = munFromFile["Taxa de atividade - 10 a 14 anos de idade 2010"][munFromFile.index[0]]
+            idhm_2010_censo = munFromFile["IDHM 2010"][munFromFile.index[0]]
+            idhm_renda_2010_censo = munFromFile["IDHM Renda 2010"][munFromFile.index[0]]
+            idhm_longevidade_2010_censo = munFromFile["IDHM Longevidade 2010"][munFromFile.index[0]]
+            idhm_educacao_2010_censo = munFromFile["IDHM Educação 2010"][munFromFile.index[0]]
             print(current_time, ' - ', municipio[0], '-', municipio[1], ' - In ', thread_name)
-            update_idhm_per_capita_municipio(municipio[0], tx_atividade_10_anos_ou_mais_2010, "tx_atividade_10_anos_ou_mais_2010")
-            update_idhm_per_capita_municipio(municipio[0], tx_atividade_10a14_anos_2010, "tx_atividade_10a14_anos_2010")
+            update_idhm_per_capita_municipio(municipio[0], idhm_2010_censo, "idhm_2010_censo")
+            update_idhm_per_capita_municipio(municipio[0], idhm_renda_2010_censo, "idhm_renda_2010_censo")
+            update_idhm_per_capita_municipio(municipio[0], idhm_longevidade_2010_censo, "idhm_longevidade_2010_censo")
+            update_idhm_per_capita_municipio(municipio[0], idhm_educacao_2010_censo, "idhm_educacao_2010_censo")
         except:
             print(current_time, " - ", "Municipio não encontrado: ", municipio[0], '-', municipio[1])
 

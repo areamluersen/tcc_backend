@@ -1,5 +1,5 @@
 import pandas as pd
-from municipios_exec_bd import get_all_municipios, get_connection
+from src.database.municipios_exec_bd import get_all_municipios, get_connection
 import numpy as np
 from threading import Thread
 from datetime import datetime

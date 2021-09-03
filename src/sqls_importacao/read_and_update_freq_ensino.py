@@ -1,11 +1,11 @@
 import pandas as pd
-from municipios_exec_bd import get_all_municipios, get_connection
+from src.database.municipios_exec_bd import get_all_municipios, get_connection
 import numpy as np
 from threading import Thread
 from datetime import datetime
 
 def read_excel():
-    return pd.read_excel(r"C:\faculdade\tcc\fontes_de_dados\5-taxa_ocupacao_desocupacao_18_ou_mais.xlsx", skiprows=0)  # use r before absolute file path
+    return pd.read_excel(r"C:\faculdade\tcc\fontes_de_dados\3-frequencia_escolar_censo_escolar.xlsx", skiprows=0)  # use r before absolute file path
 
 def update_idhm_per_capita_municipio(ibge_municipio, idhm, column):
     connection = get_connection()
@@ -22,11 +22,11 @@ def update_idhm_municipios(municipios, thread_name):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         try:
-            tx_ocupacao_18_anos_ou_mais_2010 = munFromFile["Taxa de atividade - 18 anos ou mais de idade 2010"][munFromFile.index[0]]
-            tx_desocupacao_18_anos_ou_mais_2010 = munFromFile["Taxa de desocupação - 18 anos ou mais de idade 2010"][munFromFile.index[0]]
+            tx_freq_liq_ens_fund_2010 = munFromFile["Taxa de frequência líquida ao ensino fundamental 2010"][munFromFile.index[0]]
+            tx_evasao_rede_publica_fund_2014 = munFromFile["Taxa de evasão no ensino fundamental, na rede pública 2014"][munFromFile.index[0]]
             print(current_time, ' - ', municipio[0], '-', municipio[1], ' - In ', thread_name)
-            update_idhm_per_capita_municipio(municipio[0], tx_ocupacao_18_anos_ou_mais_2010, "tx_ocupacao_18_anos_ou_mais_2010")
-            update_idhm_per_capita_municipio(municipio[0], tx_desocupacao_18_anos_ou_mais_2010, "tx_desocupacao_18_anos_ou_mais_2010")
+            update_idhm_per_capita_municipio(municipio[0], tx_freq_liq_ens_fund_2010, "tx_freq_liq_ens_fund_2010")
+            update_idhm_per_capita_municipio(municipio[0], tx_evasao_rede_publica_fund_2014, "tx_evasao_rede_publica_fund_2014")
         except:
             print(current_time, " - ", "Municipio não encontrado: ", municipio[0], '-', municipio[1])
 
