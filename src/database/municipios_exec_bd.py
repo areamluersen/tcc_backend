@@ -71,6 +71,49 @@ join  municipio m on m.municipio = ma.municipio)t
     return municipios
 
 
+def get_municipio_with_data(year=2015, ibge=-1):
+    connection = get_connection()
+    municipios = connection.execute_get_sql(f"""
+    select 
+json_build_object (
+    'municipio', m.municipio,
+	'name', m."name",
+	'tx_registros_m', case when ma.total_registros_m > 0 then round(cast((ma.total_registros_m::float / ma.total_registros::float) * 100 as numeric), 2) else 0 end,
+	'tx_registros_f', case when ma.total_registros_f > 0 then round(cast((ma.total_registros_f::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_m_magreza', case when ma.magreza_m > 0 then round(cast((ma.magreza_m ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_m_eutrofia', case when ma.eutrofia_m > 0 then round(cast((ma.eutrofia_m ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_m_risco_sobrepeso', case when ma.risco_sobrepeso_m > 0 then round(cast((ma.risco_sobrepeso_m ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_m_sobrepeso', case when ma.sobrepeso_m > 0 then round(cast((ma.sobrepeso_m ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_m_obesidade', case when ma.obesidade_obesidade_grave_m > 0 then round(cast((ma.obesidade_obesidade_grave_m ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_f_magreza', case when ma.magreza_f > 0 then round(cast((ma.magreza_f ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_f_eutrofia', case when ma.eutrofia_f > 0 then round(cast((ma.eutrofia_f ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_f_risco_sobrepeso', case when ma.risco_sobrepeso_f > 0 then round(cast((ma.risco_sobrepeso_f ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_f_sobrepeso', case when ma.sobrepeso_f > 0 then round(cast((ma.sobrepeso_f ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'tx_registros_f_obesidade', case when ma.obesidade_obesidade_grave_f > 0 then round(cast((ma.obesidade_obesidade_grave_f ::float / ma.total_registros::float) * 100 as numeric), 2)  else 0  end,
+	'total_registros', ma.total_registros,
+	'total_registros_m', ma.total_registros_m,
+	'total_registros_f', ma.total_registros_f,
+	'magreza_m', ma.magreza_m,
+	'eutrofia_m', ma.eutrofia_m,
+	'risco_sobrepeso_m', ma.risco_sobrepeso_m,
+	'sobrepeso_m', ma.sobrepeso_m,
+	'obesidade_obesidade_grave_m', ma.obesidade_obesidade_grave_m,
+	'magreza_f', ma.magreza_f,
+	'eutrofia_f', ma.eutrofia_f,
+	'risco_sobrepeso_f', ma.risco_sobrepeso_f,
+	'sobrepeso_f', ma.sobrepeso_f,
+	'obesidade_obesidade_grave_f', ma.obesidade_obesidade_grave_f
+) as municipio
+
+from public.municipio_antropometria_{2015}_5_10_anos ma 
+join  municipio m on m.municipio = ma.municipio
+where m.municipio = {ibge}
+
+""")
+    connection.close_connection()
+    return municipios
+
+
 def executor_in_all_municipios_strategy(municipios, thread_name, year):
     connection = get_connection()
     for municipio in municipios:

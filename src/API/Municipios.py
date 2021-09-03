@@ -9,3 +9,10 @@ class Municipios(Resource):
         # municipios = list(data)
         # data = {'municipios': municipios}
         return data[0][0], 200
+
+    def getMunicipio(self, id):
+        print(id)
+        data = get_municipios_with_data(2015)
+        # municipios = list(data)
+        # data = {'municipios': municipios}
+        return data[0][0], 200
