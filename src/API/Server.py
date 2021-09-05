@@ -7,7 +7,7 @@ app = Flask(__name__)
 api = Api(app)
 
 api.add_resource(Municipio, '/municipio/<ibge>')
-api.add_resource(Municipios, '/municipios')
+api.add_resource(Municipios, '/municipios/<year>')
 
 
 if __name__ == '__main__':
