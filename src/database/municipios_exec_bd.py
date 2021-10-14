@@ -5,7 +5,8 @@ from datetime import datetime
 
 
 def get_connection():
-    return Connection("localhost", 5432, "postgres", "postgres", "sldak47")
+    return Connection("34.73.17.187", 5432, "postgres", "postgres", "sldak47")
+    #return Connection("utility-replica-328713:us-east1:antropometria", 5432, "postgres", "postgres", "sldak47")
 
 
 def get_all_municipios_by_year_count_is_zero(year="2015"):
