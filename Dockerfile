@@ -16,7 +16,7 @@ EXPOSE 5000
 # Install production dependencies.
 RUN pip install python-dotenv
 RUN pip install psycopg2-binary
-RUN pip install Flask gunicorn Flask-RESTful numpy
+RUN pip install Flask gunicorn Flask-RESTful flask-cors numpy
 #RUN pip install gunicorn
 
 # Run the web service on container startup. Here we use the gunicorn
