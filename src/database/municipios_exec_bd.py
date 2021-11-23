@@ -2,12 +2,15 @@ from src.database.Connection import Connection
 import numpy as np
 from threading import Thread
 from datetime import datetime
-
+import os
 
 def get_connection():
-    return Connection("34.73.17.187", 5432, "postgres", "postgres", "sldak47")
-    #return Connection("utility-replica-328713:us-east1:antropometria", 5432, "postgres", "postgres", "sldak47")
-
+    HOST = os.getenv('DB_HOST')
+    PORT = os.getenv('DB_PORT')
+    USER = os.getenv('DB_USER')
+    PASSWORD = os.getenv('DB_PASSWORD')
+    SCHEMA = os.getenv('DB_SCHEMA')
+    return Connection(HOST, PORT, SCHEMA, USER, PASSWORD)
 
 def get_all_municipios_by_year_count_is_zero(year="2015"):
     connection = get_connection()
